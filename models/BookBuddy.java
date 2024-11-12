@@ -71,4 +71,26 @@ public class BookBuddy {
         }
         return null; // If no book found, return null
     }
+
+    // Admin methods
+
+    // Method to get all books
+    public ArrayListADT<Book> getBooks() {
+        return books;
+    }
+
+    // Method to add a book to the list
+    public void addBook(Book book) {
+        books.add(book);
+    }
+
+    public boolean removeBook(int bookId) {
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).getBookId() == bookId) {
+                books.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
 }
