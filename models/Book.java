@@ -1,0 +1,48 @@
+package BooksApp.models;
+
+public class Book implements Comparable<Book> {
+    private int bookId;
+    private String title;
+    private String author;
+    private double price;
+    private int stockQuantity;
+
+    public Book(int bookId, String title, String author, double price, int stockQuantity) {
+        this.bookId = bookId;
+        this.title = title;
+        this.author = author;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+    }
+
+    public int getBookId() {
+        return bookId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public int getStockQuantity() {
+        return stockQuantity;
+    }
+
+    @Override
+    public int compareTo(Book other) {
+        return this.title.compareTo(other.title);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Book ID: %d\tTitle: %s\tAuthor: %s\tPrice: %.2f\tStock Quantity: %d",
+                bookId, title, author, price, stockQuantity);
+    }
+}
