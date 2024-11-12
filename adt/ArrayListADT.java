@@ -1,8 +1,10 @@
 package BooksApp.adt;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class ArrayListADT<E> implements AbstractList<E> {
+public class ArrayListADT<E> implements AbstractList<E>, Iterable<E> {
 
     // data fields
     private final int DEFAULT_CAPACITY = 10;
@@ -55,7 +57,7 @@ public class ArrayListADT<E> implements AbstractList<E> {
 
     @Override
     public E get(int index) {
-        if (index < 0 || index > this.size()) {
+        if (index < 0 || index >= this.size()) {
             throw new IndexOutOfBoundsException();
         }
 
@@ -122,10 +124,7 @@ public class ArrayListADT<E> implements AbstractList<E> {
 
     @Override
     public boolean isEmpty() {
-        if (this.size() == 0) {
-            return true;
-        }
-        return false;
+        return this.size() == 0;
     }
 
     @Override
@@ -152,5 +151,27 @@ public class ArrayListADT<E> implements AbstractList<E> {
             this.elements[i] = null;
         }
         this.size = 0;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return new ArrayListIterator();
+    }
+
+    private class ArrayListIterator implements Iterator<E> {
+        private int currentIndex = 0;
+
+        @Override
+        public boolean hasNext() {
+            return currentIndex < size;
+        }
+
+        @Override
+        public E next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            return elements[currentIndex++];
+        }
     }
 }
