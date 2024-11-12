@@ -40,9 +40,9 @@ public class CartItem implements Comparable<CartItem> {
         this.quantity = quantity;
     }
 
-    public Book getBook() {
+    /* public Book getBook() {
         return new Book(bookId, title, author, price, quantity);
-    }
+    } */
 
     @Override
     public int compareTo(CartItem other) {

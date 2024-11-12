@@ -174,7 +174,7 @@ public class Main {
 
                                 if (availableQuantity <= 0) {
                                     System.out.println(
-                                            "You have already added the maximum available quantity of this book to your cart.");
+                                            "This book is not available in stock.");
                                 } else {
                                     System.out.print("Enter the quantity to add to cart (available: "
                                             + availableQuantity + "): ");
@@ -242,6 +242,13 @@ public class Main {
                                         Order order = orderBuddy.createOrder(new Date(), customer, "Pending",
                                                 booksInCart);
                                         orderBuddy.addOrder(order);
+
+                                        // Subtract stock quantity of the books
+                                        for (int i = 0; i < booksInCart.size(); i++) {
+                                            CartItem cartItem = booksInCart.get(i);
+                                            Book bookToBuy = bookBuddy.getBookById(cartItem.getBookId());
+                                            bookToBuy.setStockQuantity(bookToBuy.getStockQuantity() - cartItem.getQuantity());
+                                        }
 
                                         System.out.println("----------------------");
                                         System.out.println("Order placed successfully!");
@@ -332,24 +339,42 @@ public class Main {
                             if (orders.isEmpty()) {
                                 System.out.println("No orders found.");
                             } else {
-                                for (int i = 0; i < orders.size(); i++) {
+                                boolean orderFound = false;
+                                QueueADT<Order> tempQueue = new QueueADT<>();
+                                while (!orders.isEmpty()) {
                                     Order order = orders.poll();
-                                    System.out.println(order);
-                                    orders.offer(order); // Re-add the order to maintain the queue
+                                    if (order.getCustomerId() == loggedInUser.getUserId()) {
+                                        System.out.println(order);
+                                        orderFound = true;
+                                    }
+                                    tempQueue.offer(order);
+                                }
+                                // Restore the original queue
+                                while (!tempQueue.isEmpty()) {
+                                    orders.offer(tempQueue.poll());
+                                }
+                                if (!orderFound) {
+                                    System.out.println("No orders found for your account.");
                                 }
                             }
 
                             // Search Orders
                             System.out.println("----------------------");
-                            System.out.print("Enter the order ID or book title to search: ");
+                            System.out.print("Enter the order ID to search: ");
                             String searchOrderQuery = scanner.nextLine();
+                            try {
+                                Integer.parseInt(searchOrderQuery); // Check if the input is a valid number
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid input. Please enter a valid order ID.");
+                                break;
+                            }
                             System.out.println("Searching for orders matching: " + searchOrderQuery);
                             boolean orderFound = false;
                             QueueADT<Order> tempQueue = new QueueADT<>();
                             while (!orders.isEmpty()) {
                                 Order order = orders.poll();
-                                if (Integer.toString(order.getOrderId()).equals(searchOrderQuery) ||
-                                        order.getBookTitle(searchOrderQuery) != null) {
+                                if (order.getCustomerId() == loggedInUser.getUserId() &&
+                                        Integer.toString(order.getOrderId()).equals(searchOrderQuery)) {
                                     orderFound = true;
                                     System.out.println(order);
                                 }
