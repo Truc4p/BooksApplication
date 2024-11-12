@@ -332,42 +332,24 @@ public class Main {
                             if (orders.isEmpty()) {
                                 System.out.println("No orders found.");
                             } else {
-                                boolean orderFound = false;
-                                QueueADT<Order> tempQueue = new QueueADT<>();
-                                while (!orders.isEmpty()) {
+                                for (int i = 0; i < orders.size(); i++) {
                                     Order order = orders.poll();
-                                    if (order.getCustomerId() == loggedInUser.getUserId()) {
-                                        System.out.println(order);
-                                        orderFound = true;
-                                    }
-                                    tempQueue.offer(order);
-                                }
-                                // Restore the original queue
-                                while (!tempQueue.isEmpty()) {
-                                    orders.offer(tempQueue.poll());
-                                }
-                                if (!orderFound) {
-                                    System.out.println("No orders found for your account.");
+                                    System.out.println(order);
+                                    orders.offer(order); // Re-add the order to maintain the queue
                                 }
                             }
 
                             // Search Orders
                             System.out.println("----------------------");
-                            System.out.print("Enter the order ID to search: ");
+                            System.out.print("Enter the order ID or book title to search: ");
                             String searchOrderQuery = scanner.nextLine();
-                            try {
-                                Integer.parseInt(searchOrderQuery); // Check if the input is a valid number
-                            } catch (NumberFormatException e) {
-                                System.out.println("Invalid input. Please enter a valid order ID.");
-                                break;
-                            }
                             System.out.println("Searching for orders matching: " + searchOrderQuery);
                             boolean orderFound = false;
                             QueueADT<Order> tempQueue = new QueueADT<>();
                             while (!orders.isEmpty()) {
                                 Order order = orders.poll();
-                                if (order.getCustomerId() == loggedInUser.getUserId() &&
-                                        Integer.toString(order.getOrderId()).equals(searchOrderQuery)) {
+                                if (Integer.toString(order.getOrderId()).equals(searchOrderQuery) ||
+                                        order.getBookTitle(searchOrderQuery) != null) {
                                     orderFound = true;
                                     System.out.println(order);
                                 }
