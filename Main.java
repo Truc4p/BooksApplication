@@ -276,21 +276,23 @@ public class Main {
 
                             // Search Orders
                             System.out.println("----------------------");
-                            System.out.print("Enter the order ID or customer ID to search: ");
+                            System.out.print("Enter the order ID or book title to search: ");
                             String searchOrderQuery = scanner.nextLine();
+                            boolean isNumber = true;
                             try {
                                 Integer.parseInt(searchOrderQuery); // Check if the input is a valid number
                             } catch (NumberFormatException e) {
-                                System.out.println("Invalid input. Please enter a valid order ID or customer ID.");
-                                break;
+                                isNumber = false;
                             }
                             System.out.println("Searching for orders matching: " + searchOrderQuery);
                             boolean orderFound = false;
                             QueueADT<Order> tempQueue = new QueueADT<>();
                             while (!orders.isEmpty()) {
                                 Order order = orders.poll();
-                                if (Integer.toString(order.getOrderId()).equals(searchOrderQuery) ||
-                                        Integer.toString(order.getCustomerId()).equals(searchOrderQuery)) {
+                                if (isNumber && Integer.toString(order.getOrderId()).equals(searchOrderQuery)) {
+                                    orderFound = true;
+                                    System.out.println(order);
+                                } else if (!isNumber && order.getBookTitle(searchOrderQuery) != null) {
                                     orderFound = true;
                                     System.out.println(order);
                                 }
@@ -344,8 +346,20 @@ public class Main {
                     System.out.println("5. View all orders");
                     System.out.println("6. Logout");
                     System.out.println("----------------------");
-                    System.out.print("Enter your choice: ");
-                    int choice = Integer.parseInt(scanner.nextLine());
+
+                    int choice = 0;
+                    while (true) {
+                        try {
+                            System.out.print("Enter your choice: ");
+                            choice = Integer.parseInt(scanner.nextLine());
+                            if (choice < 1 || choice > 6) {
+                                throw new NumberFormatException();
+                            }
+                            break;
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid choice. Please enter a number between 1 and 6.");
+                        }
+                    }
 
                     switch (choice) {
                         case 1:
@@ -360,11 +374,26 @@ public class Main {
                             String title = scanner.nextLine();
                             System.out.print("Enter the book author: ");
                             String author = scanner.nextLine();
-                            System.out.print("Enter the book price: ");
-                            double price = Double.parseDouble(scanner.nextLine());
-                            System.out.print("Enter the stock quantity: ");
-                            int stockQuantity = Integer.parseInt(scanner.nextLine());
-
+                            double price = 0;
+                            while (true) {
+                                try {
+                                    System.out.print("Enter the book price: ");
+                                    price = Double.parseDouble(scanner.nextLine());
+                                    break;
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Invalid input. Please enter a valid price.");
+                                }
+                            }
+                            int stockQuantity = 0;
+                            while (true) {
+                                try {
+                                    System.out.print("Enter the stock quantity: ");
+                                    stockQuantity = Integer.parseInt(scanner.nextLine());
+                                    break;
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Invalid input. Please enter a valid stock quantity.");
+                                }
+                            }
                             Book newBook = new Book(bookBuddy.getBooks().size() + 1, title, author, price, stockQuantity);
                             bookBuddy.addBook(newBook);
                             System.out.println("Book added successfully!");

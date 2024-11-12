@@ -44,6 +44,15 @@ public class Order {
         return items;
     }
 
+    public String getBookTitle(String searchOrderQuery) {
+        for (CartItem item : items) {
+            if (item.getTitle().equalsIgnoreCase(searchOrderQuery)) {
+                return item.getTitle();
+            }
+        }
+        return null;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
