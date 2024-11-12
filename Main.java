@@ -112,12 +112,31 @@ public class Main {
                                 System.out
                                         .println("Your cart is empty. Add some books to the cart before checking out.");
                             } else {
-                                System.out.print("Enter your customer ID: ");
-                                int customerId = Integer.parseInt(scanner.nextLine());
+                                int customerId = 0;
+                                while (true) {
+                                    try {
+                                        System.out.print("Enter your customer ID: ");
+                                        customerId = Integer.parseInt(scanner.nextLine());
+                                        break;
+                                    } catch (NumberFormatException e) {
+                                        System.out.println("Invalid input. Please enter a valid customer ID.");
+                                    }
+                                }
+
                                 System.out.print("Enter your name: ");
                                 String name = scanner.nextLine();
-                                System.out.print("Enter your email: ");
-                                String email = scanner.nextLine();
+
+                                String email = "";
+                                while (true) {
+                                    System.out.print("Enter your email: ");
+                                    email = scanner.nextLine();
+                                    if (email.contains("@")) {
+                                        break;
+                                    } else {
+                                        System.out.println("Invalid input. Please enter a valid email.");
+                                    }
+                                }
+
                                 System.out.print("Enter your address: ");
                                 String address = scanner.nextLine();
 
@@ -127,10 +146,6 @@ public class Main {
                                     booksInCart.add(cartItemBuddy.getBooksInCart().get(i));
                                 }
                                 Order order = orderBuddy.createOrder(new Date(), customer, "Pending", booksInCart);
-
-                                // Save the order (this part depends on how you manage orders in your
-                                // application)
-                                // For example, you might have an OrderBuddy class to handle orders
                                 orderBuddy.addOrder(order);
 
                                 System.out.println("----------------------");
@@ -147,6 +162,7 @@ public class Main {
                             break;
 
                         case 3:
+                            // Remove book from cart
                             System.out.println("----------------------");
                             System.out.print("Enter the book ID to remove from cart or 'n' to cancel: ");
                             String inputCart = scanner.nextLine();
@@ -161,6 +177,7 @@ public class Main {
                             break;
 
                         case 4:
+                            // Change quantity
                             System.out.println("----------------------");
                             System.out.print("Enter the book ID to change quantity or 'n' to cancel: ");
                             String inputCart2 = scanner.nextLine();
@@ -212,8 +229,14 @@ public class Main {
 
                     // Search Orders
                     System.out.println("----------------------");
-                    System.out.print("Enter the order number or customer ID to search: ");
+                    System.out.print("Enter the order ID or customer ID to search: ");
                     String searchOrderQuery = scanner.nextLine();
+                    try {
+                        Integer.parseInt(searchOrderQuery); // Check if the input is a valid number
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. Please enter a valid order ID or customer ID.");
+                        break;
+                    }
                     System.out.println("Searching for orders matching: " + searchOrderQuery);
                     boolean orderFound = false;
                     QueueADT<Order> tempQueue = new QueueADT<>();
