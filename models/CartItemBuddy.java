@@ -82,6 +82,16 @@ public class CartItemBuddy {
         return cart;
     }
 
+    public int getQuantityInCart(int bookId) {
+        for (int i = 0; i < cart.size(); i++) {
+            CartItem cartItem = cart.get(i);
+            if (cartItem.getBookId() == bookId) {
+                return cartItem.getQuantity();
+            }
+        }
+        return 0;
+    }
+
     public void clearCart() {
         cart.clear();
     }

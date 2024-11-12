@@ -7,7 +7,6 @@ import java.util.Date;
 import BooksApp.models.BookBuddy;
 import BooksApp.models.CartItemBuddy;
 import BooksApp.models.OrderBuddy;
-import BooksApp.models.UserBuddy;
 import BooksApp.models.User;
 import BooksApp.admin.Admin;
 import BooksApp.admin.AdminBuddy;
@@ -26,7 +25,6 @@ public class Main {
         BookBuddy bookBuddy = new BookBuddy();
         CartItemBuddy cartItemBuddy = new CartItemBuddy();
         OrderBuddy orderBuddy = new OrderBuddy();
-        UserBuddy userBuddy = new UserBuddy();
         AdminBuddy adminBuddy = new AdminBuddy();
         CustomerBuddy customerBuddy = new CustomerBuddy();
         StackADT<String> searchHistory = new StackADT<>(); // Stack to store search queries
@@ -138,27 +136,46 @@ public class Main {
                             bookBuddy.displayBooks();
                             break;
 
-                        case 2:
+                            case 2:
                             // Add book to cart
                             System.out.println("----------------------");
-                            System.out.print("Enter the book ID to add to cart: ");
-                            int bookIdToAdd = Integer.parseInt(scanner.nextLine());
+                            int bookIdToAdd = 0;
+                            while (true) {
+                                try {
+                                    System.out.print("Enter the book ID to add to cart: ");
+                                    bookIdToAdd = Integer.parseInt(scanner.nextLine());
+                                    break;
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Invalid input. Please enter a valid book ID.");
+                                }
+                            }
                             Book book = bookBuddy.getBookById(bookIdToAdd); // Assume this method retrieves the book by ID
                             if (book != null) {
-                                System.out.print("Enter the quantity to add to cart: ");
-                                int quantity = 0;
-                                boolean validQuantity = false;
-
-                                while (!validQuantity) {
-                                    try {
-                                        quantity = Integer.parseInt(scanner.nextLine());
-                                        validQuantity = true;
-                                    } catch (NumberFormatException e) {
-                                        System.out.println("Invalid input. Please enter a valid quantity.");
+                                int currentQuantityInCart = cartItemBuddy.getQuantityInCart(bookIdToAdd); // Assume this method retrieves the current quantity of the book in the cart
+                                int availableQuantity = book.getStockQuantity() - currentQuantityInCart;
+                        
+                                if (availableQuantity <= 0) {
+                                    System.out.println("You have already added the maximum available quantity of this book to your cart.");
+                                } else {
+                                    System.out.print("Enter the quantity to add to cart (available: " + availableQuantity + "): ");
+                                    int quantity = 0;
+                                    boolean validQuantity = false;
+                        
+                                    while (!validQuantity) {
+                                        try {
+                                            quantity = Integer.parseInt(scanner.nextLine());
+                                            if (quantity > 0 && quantity <= availableQuantity) {
+                                                validQuantity = true;
+                                            } else {
+                                                System.out.println("Invalid quantity. Please enter a quantity between 1 and " + availableQuantity + ".");
+                                            }
+                                        } catch (NumberFormatException e) {
+                                            System.out.println("Invalid input. Please enter a valid quantity.");
+                                        }
                                     }
+                                    cartItemBuddy.addToCart(book, quantity); // Add to cart with specified quantity
+                                    System.out.println("Book(s) added to cart!");
                                 }
-                                cartItemBuddy.addToCart(book, quantity); // Add to cart with specified quantity
-                                System.out.println("Book(s) added to cart!");
                             } else {
                                 System.out.println("No book found with ID: " + bookIdToAdd);
                             }
@@ -170,7 +187,8 @@ public class Main {
                             System.out.print("Enter the ID, title or author of the book: ");
                             String searchQuery = scanner.nextLine();
                             searchHistory.push(searchQuery); // Save search query to history
-                            bookBuddy.searchBook(searchQuery); // Assume searchBook handles searching by ID, title, or author
+                            bookBuddy.searchBook(searchQuery); // Assume searchBook handles searching by ID, title, or
+                                                               // author
                             break;
 
                         case 4:
@@ -191,14 +209,16 @@ public class Main {
                                 case 1:
                                     // Checkout
                                     if (cartItemBuddy.isEmpty()) {
-                                        System.out.println("Your cart is empty. Add some books to the cart before checking out.");
+                                        System.out.println(
+                                                "Your cart is empty. Add some books to the cart before checking out.");
                                     } else {
                                         Customer customer = (Customer) loggedInUser;
                                         ArrayListADT<CartItem> booksInCart = new ArrayListADT<>();
                                         for (int i = 0; i < cartItemBuddy.getBooksInCart().size(); i++) {
                                             booksInCart.add(cartItemBuddy.getBooksInCart().get(i));
                                         }
-                                        Order order = orderBuddy.createOrder(new Date(), customer, "Pending", booksInCart);
+                                        Order order = orderBuddy.createOrder(new Date(), customer, "Pending",
+                                                booksInCart);
                                         orderBuddy.addOrder(order);
 
                                         System.out.println("----------------------");
@@ -238,7 +258,12 @@ public class Main {
                                         try {
                                             int bookId = Integer.parseInt(inputCart2);
                                             CartItem cartItem = cartItemBuddy.getCartItemById(bookId);
-                                            Book bookQuantityChangeInCart = bookBuddy.getBookById(bookId); // Assume this method retrieves the book by ID
+                                            Book bookQuantityChangeInCart = bookBuddy.getBookById(bookId); // Assume
+                                                                                                           // this
+                                                                                                           // method
+                                                                                                           // retrieves
+                                                                                                           // the book
+                                                                                                           // by ID
                                             if (cartItem != null) {
                                                 System.out.print("Enter the new quantity: ");
                                                 int newQuantity = Integer.parseInt(scanner.nextLine());
@@ -278,21 +303,13 @@ public class Main {
                             System.out.println("----------------------");
                             System.out.print("Enter the order ID or book title to search: ");
                             String searchOrderQuery = scanner.nextLine();
-                            boolean isNumber = true;
-                            try {
-                                Integer.parseInt(searchOrderQuery); // Check if the input is a valid number
-                            } catch (NumberFormatException e) {
-                                isNumber = false;
-                            }
                             System.out.println("Searching for orders matching: " + searchOrderQuery);
                             boolean orderFound = false;
                             QueueADT<Order> tempQueue = new QueueADT<>();
                             while (!orders.isEmpty()) {
                                 Order order = orders.poll();
-                                if (isNumber && Integer.toString(order.getOrderId()).equals(searchOrderQuery)) {
-                                    orderFound = true;
-                                    System.out.println(order);
-                                } else if (!isNumber && order.getBookTitle(searchOrderQuery) != null) {
+                                if (Integer.toString(order.getOrderId()).equals(searchOrderQuery) ||
+                                        order.getBookTitle(searchOrderQuery) != null) {
                                     orderFound = true;
                                     System.out.println(order);
                                 }
@@ -394,7 +411,8 @@ public class Main {
                                     System.out.println("Invalid input. Please enter a valid stock quantity.");
                                 }
                             }
-                            Book newBook = new Book(bookBuddy.getBooks().size() + 1, title, author, price, stockQuantity);
+                            Book newBook = new Book(bookBuddy.getBooks().size() + 1, title, author, price,
+                                    stockQuantity);
                             bookBuddy.addBook(newBook);
                             System.out.println("Book added successfully!");
                             break;
