@@ -1,78 +1,57 @@
+// FILE: models/Order.java
 package BooksApp.models;
 
 import java.util.Date;
+import BooksApp.customer.Customer;
 import BooksApp.adt.ArrayListADT;
 
 public class Order {
     private int orderId;
-    private Date orderDate;
-    private int customerId;
+    private Date date;
+    private Customer customer;
     private String status;
-    private ArrayListADT<CartItem> booksInOrder;
+    private ArrayListADT<CartItem> items;
 
-    // Constructor
-    public Order(int orderId, Date orderDate, int customerId, String status, ArrayListADT<CartItem> booksInOrder) {
+    public Order(int orderId, Date date, Customer customer, String status, ArrayListADT<CartItem> items) {
         this.orderId = orderId;
-        this.orderDate = orderDate;
-        this.customerId = customerId;
+        this.date = date;
+        this.customer = customer;
         this.status = status;
-        this.booksInOrder = booksInOrder;
+        this.items = items;
     }
 
-    // Getters and Setters
     public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
-        this.orderId = orderId;
+    public Date getDate() {
+        return date;
     }
 
-    public Date getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
+    public Customer getCustomer() {
+        return customer;
     }
 
     public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+        return customer.getUserId();
     }
 
     public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public ArrayListADT<CartItem> getItems() {
+        return items;
     }
 
-    public ArrayListADT<CartItem> getBooksInOrder() {
-        return booksInOrder;
-    }
-    
-    // toString method for easy printing
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Order{");
-        sb.append("orderId=").append(orderId);
-        sb.append(", orderDate=").append(orderDate);
-        sb.append(", customerId=").append(customerId);
-        sb.append(", status='").append(status).append('\'');
-        sb.append(", booksInOrder=[");
-        for (int i = 0; i < booksInOrder.size(); i++) {
-            sb.append("\n  ").append(booksInOrder.get(i).toString());
-            if (i < booksInOrder.size() - 1) {
-                sb.append(",");
-            }
-        }
-        sb.append("\n]}");
-        return sb.toString();
+        return "Order{" +
+                "orderId=" + orderId +
+                ", date=" + date +
+                ", customer=" + customer +
+                ", status='" + status + '\'' +
+                ", items=" + items +
+                '}';
     }
 }

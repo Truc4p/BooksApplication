@@ -19,4 +19,14 @@ public class Customer extends User {
     public String getUserType() {
         return "Customer";
     }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "userId=" + userId +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
 }

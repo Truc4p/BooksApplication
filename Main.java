@@ -43,8 +43,20 @@ public class Main {
                 System.out.println("2. Login");
                 System.out.println("3. Exit");
                 System.out.println("----------------------");
-                System.out.print("Enter your choice: ");
-                int choice = Integer.parseInt(scanner.nextLine());
+
+                int choice = 0;
+                while (true) {
+                    try {
+                        System.out.print("Enter your choice: ");
+                        choice = Integer.parseInt(scanner.nextLine());
+                        if (choice < 1 || choice > 3) {
+                            throw new NumberFormatException();
+                        }
+                        break;
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid choice. Please enter 1, 2, or 3.");
+                    }
+                }
 
                 switch (choice) {
                     case 1:
@@ -68,9 +80,15 @@ public class Main {
                             customerBuddy.registerCustomer(customer);
                             System.out.println("Customer registered successfully!");
                         } else if (registerChoice == 2) {
-                            Admin admin = adminBuddy.createAdmin(name, email, password);
-                            adminBuddy.registerAdmin(admin);
-                            System.out.println("Admin registered successfully!");
+                            System.out.print("Enter the admin key: ");
+                            String adminKey = scanner.nextLine();
+                            if (adminKey.equals("abc")) {
+                                Admin admin = adminBuddy.createAdmin(name, email, password);
+                                adminBuddy.registerAdmin(admin);
+                                System.out.println("Admin registered successfully!");
+                            } else {
+                                System.out.println("Invalid admin key. Registration as Admin failed.");
+                            }
                         } else {
                             System.out.println("Invalid choice.");
                         }
@@ -185,35 +203,8 @@ public class Main {
                                 if (cartItemBuddy.isEmpty()) {
                                     System.out.println("Your cart is empty. Add some books to the cart before checking out.");
                                 } else {
-                                    int customerId = 0;
-                                    while (true) {
-                                        try {
-                                            System.out.print("Enter your customer ID: ");
-                                            customerId = Integer.parseInt(scanner.nextLine());
-                                            break;
-                                        } catch (NumberFormatException e) {
-                                            System.out.println("Invalid input. Please enter a valid customer ID.");
-                                        }
-                                    }
+                                    Customer customer = (Customer) loggedInUser;
 
-                                    System.out.print("Enter your name: ");
-                                    String name = scanner.nextLine();
-
-                                    String email = "";
-                                    while (true) {
-                                        System.out.print("Enter your email: ");
-                                        email = scanner.nextLine();
-                                        if (email.contains("@")) {
-                                            break;
-                                        } else {
-                                            System.out.println("Invalid input. Please enter a valid email.");
-                                        }
-                                    }
-
-                                    System.out.print("Enter your address: ");
-                                    String address = scanner.nextLine();
-
-                                    Customer customer = new Customer(customerId, name, email, "", address);
                                     ArrayListADT<CartItem> booksInCart = new ArrayListADT<>();
                                     for (int i = 0; i < cartItemBuddy.getBooksInCart().size(); i++) {
                                         booksInCart.add(cartItemBuddy.getBooksInCart().get(i));
