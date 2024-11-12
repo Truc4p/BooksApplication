@@ -124,16 +124,28 @@ public class Main {
             } else {
                 if (loggedInUser instanceof Customer) {
                     // Customer menu
-                    System.out.println("1. Display all books");
-                    System.out.println("2. Add book to cart");
-                    System.out.println("3. Search book");
-                    System.out.println("4. Go to cart");
-                    System.out.println("5. Orders History");
-                    System.out.println("6. Search book history");
-                    System.out.println("7. Logout");
-                    System.out.println("----------------------");
-                    System.out.print("Enter your choice: ");
-                    int choice = Integer.parseInt(scanner.nextLine());
+                    int choice = 0;
+                    while (true) {
+                        System.out.println("1. Display all books");
+                        System.out.println("2. Add book to cart");
+                        System.out.println("3. Search book");
+                        System.out.println("4. Go to cart");
+                        System.out.println("5. Orders History");
+                        System.out.println("6. Search book history");
+                        System.out.println("7. Logout");
+                        System.out.println("----------------------");
+                        System.out.print("Enter your choice: ");
+                        try {
+                            choice = Integer.parseInt(scanner.nextLine());
+                            if (choice >= 1 && choice <= 7) {
+                                break;
+                            } else {
+                                System.out.println("Invalid choice. Please enter a number between 1 and 7.");
+                            }
+                        } catch (NumberFormatException e) {
+                            System.out.println("Invalid input. Please enter a number between 1 and 7.");
+                        }
+                    }
 
                     switch (choice) {
                         case 1:
@@ -157,13 +169,7 @@ public class Main {
                             Book book = bookBuddy.getBookById(bookIdToAdd); // Assume this method retrieves the book by
                                                                             // ID
                             if (book != null) {
-                                int currentQuantityInCart = cartItemBuddy.getQuantityInCart(bookIdToAdd); // Assume this
-                                                                                                          // method
-                                                                                                          // retrieves
-                                                                                                          // the current
-                                                                                                          // quantity of
-                                                                                                          // the book in
-                                                                                                          // the cart
+                                int currentQuantityInCart = cartItemBuddy.getQuantityInCart(bookIdToAdd);
                                 int availableQuantity = book.getStockQuantity() - currentQuantityInCart;
 
                                 if (availableQuantity <= 0) {
@@ -275,8 +281,9 @@ public class Main {
                                             int bookId = Integer.parseInt(inputCart2);
                                             CartItem cartItem = cartItemBuddy.getCartItemById(bookId);
                                             if (cartItem != null) {
-                                                Book bookQuantityChange = bookBuddy.getBookById(bookId); // Assume this method
-                                                                                           // retrieves the book by ID
+                                                Book bookQuantityChange = bookBuddy.getBookById(bookId); // Assume this
+                                                                                                         // method
+                                                // retrieves the book by ID
                                                 if (bookQuantityChange != null) {
                                                     System.out.print("Enter the new quantity (available: "
                                                             + bookQuantityChange.getStockQuantity() + "): ");
@@ -287,12 +294,14 @@ public class Main {
                                                         try {
                                                             newQuantity = Integer.parseInt(scanner.nextLine());
                                                             if (newQuantity > 0
-                                                                    && newQuantity <= bookQuantityChange.getStockQuantity()) {
+                                                                    && newQuantity <= bookQuantityChange
+                                                                            .getStockQuantity()) {
                                                                 validQuantity = true;
                                                             } else {
                                                                 System.out.println(
                                                                         "Invalid quantity. Please enter a quantity between 1 and "
-                                                                                + bookQuantityChange.getStockQuantity() + ".");
+                                                                                + bookQuantityChange.getStockQuantity()
+                                                                                + ".");
                                                             }
                                                         } catch (NumberFormatException e) {
                                                             System.out.println(
@@ -323,24 +332,42 @@ public class Main {
                             if (orders.isEmpty()) {
                                 System.out.println("No orders found.");
                             } else {
-                                for (int i = 0; i < orders.size(); i++) {
+                                boolean orderFound = false;
+                                QueueADT<Order> tempQueue = new QueueADT<>();
+                                while (!orders.isEmpty()) {
                                     Order order = orders.poll();
-                                    System.out.println(order);
-                                    orders.offer(order); // Re-add the order to maintain the queue
+                                    if (order.getCustomerId() == loggedInUser.getUserId()) {
+                                        System.out.println(order);
+                                        orderFound = true;
+                                    }
+                                    tempQueue.offer(order);
+                                }
+                                // Restore the original queue
+                                while (!tempQueue.isEmpty()) {
+                                    orders.offer(tempQueue.poll());
+                                }
+                                if (!orderFound) {
+                                    System.out.println("No orders found for your account.");
                                 }
                             }
 
                             // Search Orders
                             System.out.println("----------------------");
-                            System.out.print("Enter the order ID or book title to search: ");
+                            System.out.print("Enter the order ID to search: ");
                             String searchOrderQuery = scanner.nextLine();
+                            try {
+                                Integer.parseInt(searchOrderQuery); // Check if the input is a valid number
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid input. Please enter a valid order ID.");
+                                break;
+                            }
                             System.out.println("Searching for orders matching: " + searchOrderQuery);
                             boolean orderFound = false;
                             QueueADT<Order> tempQueue = new QueueADT<>();
                             while (!orders.isEmpty()) {
                                 Order order = orders.poll();
-                                if (Integer.toString(order.getOrderId()).equals(searchOrderQuery) ||
-                                        order.getBookTitle(searchOrderQuery) != null) {
+                                if (order.getCustomerId() == loggedInUser.getUserId() &&
+                                        Integer.toString(order.getOrderId()).equals(searchOrderQuery)) {
                                     orderFound = true;
                                     System.out.println(order);
                                 }
@@ -510,6 +537,45 @@ public class Main {
                                     System.out.println(order);
                                     orders.offer(order); // Re-add the order to maintain the queue
                                 }
+                            }
+
+                            // Search Orders
+                            System.out.println("----------------------");
+                            System.out.print("Enter the order ID or customer ID to search: ");
+                            String searchOrderQuery = scanner.nextLine();
+                            boolean isNumber = true;
+                            try {
+                                Integer.parseInt(searchOrderQuery); // Check if the input is a valid number
+                            } catch (NumberFormatException e) {
+                                isNumber = false;
+                            }
+                            System.out.println("Searching for orders matching: " + searchOrderQuery);
+                            boolean orderFound = false;
+                            QueueADT<Order> tempQueue = new QueueADT<>();
+                            Order foundOrder = null;
+                            while (!orders.isEmpty()) {
+                                Order order = orders.poll();
+                                if ((isNumber && Integer.toString(order.getOrderId()).equals(searchOrderQuery)) ||
+                                        (!isNumber
+                                                && Integer.toString(order.getCustomerId()).equals(searchOrderQuery))) {
+                                    orderFound = true;
+                                    foundOrder = order;
+                                    System.out.println(order);
+                                }
+                                tempQueue.offer(order);
+                            }
+                            // Restore the original queue
+                            while (!tempQueue.isEmpty()) {
+                                orders.offer(tempQueue.poll());
+                            }
+                            if (!orderFound) {
+                                System.out.println("No orders found matching: " + searchOrderQuery);
+                            } else {
+                                // Change order status
+                                System.out.print("Enter the new status for the order: ");
+                                String newStatus = scanner.nextLine();
+                                foundOrder.setStatus(newStatus);
+                                System.out.println("Order status updated successfully!");
                             }
                             break;
 

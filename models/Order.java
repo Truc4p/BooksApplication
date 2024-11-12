@@ -40,6 +40,10 @@ public class Order {
         return status;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public ArrayListADT<CartItem> getItems() {
         return items;
     }
