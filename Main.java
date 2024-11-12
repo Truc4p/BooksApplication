@@ -31,6 +31,9 @@ public class Main {
         boolean running = true;
         User loggedInUser = null;
 
+        // ArrayListADT to simulate database
+        ArrayListADT<User> usersDatabase = new ArrayListADT<>();
+
         while (running) {
             System.out.println("----------------------");
             System.out.println("Book Store Application");
@@ -64,6 +67,7 @@ public class Main {
                             String address = scanner.nextLine();
                             Customer customer = customerBuddy.createCustomer(name, email, password, address);
                             customerBuddy.registerCustomer(customer);
+                            usersDatabase.add(customer); // Save to database
                             System.out.println("Customer registered successfully!");
                         } else if (registerChoice == 2) {
                             System.out.print("Enter the admin key: ");
@@ -71,6 +75,7 @@ public class Main {
                             if (adminKey.equals("abc")) {
                                 Admin admin = adminBuddy.createAdmin(name, email, password);
                                 adminBuddy.registerAdmin(admin);
+                                usersDatabase.add(admin); // Save to database
                                 System.out.println("Admin registered successfully!");
                             } else {
                                 System.out.println("Invalid admin key. Registration as Admin failed.");
@@ -136,7 +141,7 @@ public class Main {
                             bookBuddy.displayBooks();
                             break;
 
-                            case 2:
+                        case 2:
                             // Add book to cart
                             System.out.println("----------------------");
                             int bookIdToAdd = 0;
@@ -149,25 +154,36 @@ public class Main {
                                     System.out.println("Invalid input. Please enter a valid book ID.");
                                 }
                             }
-                            Book book = bookBuddy.getBookById(bookIdToAdd); // Assume this method retrieves the book by ID
+                            Book book = bookBuddy.getBookById(bookIdToAdd); // Assume this method retrieves the book by
+                                                                            // ID
                             if (book != null) {
-                                int currentQuantityInCart = cartItemBuddy.getQuantityInCart(bookIdToAdd); // Assume this method retrieves the current quantity of the book in the cart
+                                int currentQuantityInCart = cartItemBuddy.getQuantityInCart(bookIdToAdd); // Assume this
+                                                                                                          // method
+                                                                                                          // retrieves
+                                                                                                          // the current
+                                                                                                          // quantity of
+                                                                                                          // the book in
+                                                                                                          // the cart
                                 int availableQuantity = book.getStockQuantity() - currentQuantityInCart;
-                        
+
                                 if (availableQuantity <= 0) {
-                                    System.out.println("You have already added the maximum available quantity of this book to your cart.");
+                                    System.out.println(
+                                            "You have already added the maximum available quantity of this book to your cart.");
                                 } else {
-                                    System.out.print("Enter the quantity to add to cart (available: " + availableQuantity + "): ");
+                                    System.out.print("Enter the quantity to add to cart (available: "
+                                            + availableQuantity + "): ");
                                     int quantity = 0;
                                     boolean validQuantity = false;
-                        
+
                                     while (!validQuantity) {
                                         try {
                                             quantity = Integer.parseInt(scanner.nextLine());
                                             if (quantity > 0 && quantity <= availableQuantity) {
                                                 validQuantity = true;
                                             } else {
-                                                System.out.println("Invalid quantity. Please enter a quantity between 1 and " + availableQuantity + ".");
+                                                System.out.println(
+                                                        "Invalid quantity. Please enter a quantity between 1 and "
+                                                                + availableQuantity + ".");
                                             }
                                         } catch (NumberFormatException e) {
                                             System.out.println("Invalid input. Please enter a valid quantity.");
@@ -258,20 +274,35 @@ public class Main {
                                         try {
                                             int bookId = Integer.parseInt(inputCart2);
                                             CartItem cartItem = cartItemBuddy.getCartItemById(bookId);
-                                            Book bookQuantityChangeInCart = bookBuddy.getBookById(bookId); // Assume
-                                                                                                           // this
-                                                                                                           // method
-                                                                                                           // retrieves
-                                                                                                           // the book
-                                                                                                           // by ID
                                             if (cartItem != null) {
-                                                System.out.print("Enter the new quantity: ");
-                                                int newQuantity = Integer.parseInt(scanner.nextLine());
-                                                if (newQuantity > 0) {
+                                                Book bookQuantityChange = bookBuddy.getBookById(bookId); // Assume this method
+                                                                                           // retrieves the book by ID
+                                                if (bookQuantityChange != null) {
+                                                    System.out.print("Enter the new quantity (available: "
+                                                            + bookQuantityChange.getStockQuantity() + "): ");
+                                                    int newQuantity = 0;
+                                                    boolean validQuantity = false;
+
+                                                    while (!validQuantity) {
+                                                        try {
+                                                            newQuantity = Integer.parseInt(scanner.nextLine());
+                                                            if (newQuantity > 0
+                                                                    && newQuantity <= bookQuantityChange.getStockQuantity()) {
+                                                                validQuantity = true;
+                                                            } else {
+                                                                System.out.println(
+                                                                        "Invalid quantity. Please enter a quantity between 1 and "
+                                                                                + bookQuantityChange.getStockQuantity() + ".");
+                                                            }
+                                                        } catch (NumberFormatException e) {
+                                                            System.out.println(
+                                                                    "Invalid input. Please enter a valid quantity.");
+                                                        }
+                                                    }
                                                     cartItem.setQuantity(newQuantity);
                                                     System.out.println("Quantity updated successfully!");
                                                 } else {
-                                                    System.out.println("Quantity must be greater than 0.");
+                                                    System.out.println("No book found with ID: " + bookId);
                                                 }
                                             } else {
                                                 System.out.println("No book found with ID: " + bookId);
