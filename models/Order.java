@@ -59,12 +59,19 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "orderId=" + orderId +
-                ", date=" + date +
-                ", customer=" + customer +
-                ", status='" + status + '\'' +
-                ", items=" + items +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Order Details:\n");
+        sb.append("---------------\n");
+        sb.append("Order ID: ").append(orderId).append("\n");
+        sb.append("Date: ").append(date).append("\n");
+        sb.append("Customer: ").append(customer).append("\n");
+        sb.append("Status: ").append(status).append("\n");
+        sb.append("Items:\n");
+
+        for (CartItem item : items) {
+            sb.append("\t").append(item).append("\n");
+        }
+
+        return sb.toString();
     }
 }

@@ -2,6 +2,7 @@ package BooksApp.models;
 
 import BooksApp.adt.ArrayListADT;
 import BooksApp.algo.QuickSort;
+import BooksApp.algo.BinarySearch;
 
 public class BookBuddy {
     private ArrayListADT<Book> books;
@@ -37,15 +38,36 @@ public class BookBuddy {
     public void searchBook(String query) {
         System.out.println("Searching for books matching: " + query);
         boolean found = false;
-        for (int i = 0; i < books.size(); i++) {
-            Book book = books.get(i);
-            if (book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                book.getAuthor().toLowerCase().contains(query.toLowerCase()) ||
-                Integer.toString(book.getBookId()).equals(query)) {
+
+        // Sort books using QuickSort
+        QuickSort<Book> sorter = new QuickSort<>();
+        sorter.sort(books);
+
+        // Search by ID using BinarySearch
+        try {
+            int bookId = Integer.parseInt(query);
+            BinarySearch<Book> binarySearch = new BinarySearch<>();
+            int index = binarySearch.search(books, new Book(bookId, "", "", 0, 0));
+            if (index != -1) {
+                System.out.println(books.get(index));
                 found = true;
-                System.out.println(book);
+            }
+        } catch (NumberFormatException e) {
+            // If query is not an integer, continue to search by title or author
+        }
+
+        // Search by title or author using linear search
+        if (!found) {
+            for (int i = 0; i < books.size(); i++) {
+                Book book = books.get(i);
+                if (book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                    book.getAuthor().toLowerCase().contains(query.toLowerCase())) {
+                    found = true;
+                    System.out.println(book);
+                }
             }
         }
+
         if (!found) {
             System.out.println("No books found matching: " + query);
         }
