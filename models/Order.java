@@ -48,13 +48,13 @@ public class Order {
         return items;
     }
 
-    public String getBookTitle(String searchOrderQuery) {
+    public boolean containsBookWithTitle(String title) {
         for (CartItem item : items) {
-            if (item.getTitle().equalsIgnoreCase(searchOrderQuery)) {
-                return item.getTitle();
+            if (item.getTitle().equalsIgnoreCase(title)) {
+                return true;
             }
         }
-        return null;
+        return false;
     }
 
     @Override

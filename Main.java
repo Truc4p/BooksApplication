@@ -364,46 +364,92 @@ public class Main {
 
                             // Search Orders
                             System.out.println("----------------------");
-                            System.out.print("Enter the order ID to search: ");
-                            String searchOrderQuery = scanner.nextLine();
-                            int orderId;
-                            try {
-                                orderId = Integer.parseInt(searchOrderQuery); // Check if the input is a valid number
-                            } catch (NumberFormatException e) {
-                                System.out.println("Invalid input. Please enter a valid order ID.");
-                                break;
-                            }
-                            System.out.println("Searching for orders matching: " + searchOrderQuery);
+                            System.out.println("1. Search by Order ID");
+                            System.out.println("2. Search by Book Title");
+                            System.out.print("Enter your choice: ");
+                            String searchChoice = scanner.nextLine();
 
-                            LinearSearch<Order> linearSearch = new LinearSearch<>();
-                            QueueADT<Order> ordersQueue = orderBuddy.getOrders();
-                            QueueADT<Order> tempQueue = new QueueADT<>();
+                            if (searchChoice.equals("1")) {
+                                System.out.print("Enter the order ID to search: ");
+                                String searchOrderQuery = scanner.nextLine();
+                                int orderId;
+                                try {
+                                    orderId = Integer.parseInt(searchOrderQuery); // Check if the input is a valid
+                                                                                  // number
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Invalid input. Please enter a valid order ID.");
+                                    break;
+                                }
+                                System.out.println("Searching for orders matching: " + searchOrderQuery);
 
-                            // Convert QueueADT to ArrayListADT for searching
-                            ArrayListADT<Order> orderList = new ArrayListADT<>();
-                            while (!ordersQueue.isEmpty()) {
-                                Order order = ordersQueue.poll();
-                                orderList.add(order);
-                                tempQueue.offer(order);
-                            }
+                                LinearSearch<Order> linearSearch = new LinearSearch<>();
+                                QueueADT<Order> ordersQueue = orderBuddy.getOrders();
+                                QueueADT<Order> tempQueue = new QueueADT<>();
 
-                            // Restore the original queue
-                            while (!tempQueue.isEmpty()) {
-                                ordersQueue.offer(tempQueue.poll());
-                            }
+                                // Convert QueueADT to ArrayListADT for searching
+                                ArrayListADT<Order> orderList = new ArrayListADT<>();
+                                while (!ordersQueue.isEmpty()) {
+                                    Order order = ordersQueue.poll();
+                                    orderList.add(order);
+                                    tempQueue.offer(order);
+                                }
 
-                            // Make loggedInUser final
-                            final User finalLoggedInUser = loggedInUser;
+                                // Restore the original queue
+                                while (!tempQueue.isEmpty()) {
+                                    ordersQueue.offer(tempQueue.poll());
+                                }
 
-                            // Perform the search
-                            int index = linearSearch.search(orderList, null,
-                                    order -> order.getCustomerId() == finalLoggedInUser.getUserId()
-                                            && order.getOrderId() == orderId);
+                                // Make loggedInUser final
+                                final User finalLoggedInUser = loggedInUser;
 
-                            if (index != -1) {
-                                System.out.println(orderList.get(index));
-                            } else {
-                                System.out.println("No orders found matching: " + searchOrderQuery);
+                                // Perform the search
+                                int index = linearSearch.search(orderList, null,
+                                        order -> order.getCustomerId() == finalLoggedInUser.getUserId()
+                                                && order.getOrderId() == orderId);
+
+                                if (index != -1) {
+                                    System.out.println(orderList.get(index));
+                                } else {
+                                    System.out.println("No orders found matching: " + searchOrderQuery);
+                                }
+                            } else if (searchChoice.equals("2")) {
+                                System.out.print("Enter the book title to search: ");
+                                String bookTitle = scanner.nextLine();
+                                System.out.println("Searching for orders containing book title: " + bookTitle);
+
+                                QueueADT<Order> ordersQueue = orderBuddy.getOrders();
+                                QueueADT<Order> tempQueue = new QueueADT<>();
+
+                                // Convert QueueADT to ArrayListADT for searching
+                                ArrayListADT<Order> orderList = new ArrayListADT<>();
+                                while (!ordersQueue.isEmpty()) {
+                                    Order order = ordersQueue.poll();
+                                    orderList.add(order);
+                                    tempQueue.offer(order);
+                                }
+
+                                // Restore the original queue
+                                while (!tempQueue.isEmpty()) {
+                                    ordersQueue.offer(tempQueue.poll());
+                                }
+
+                                // Perform the search
+                                ArrayListADT<Order> matchingOrders = new ArrayListADT<>();
+                                for (int i = 0; i < orderList.size(); i++) {
+                                    Order order = orderList.get(i);
+                                    if (order.getCustomerId() == loggedInUser.getUserId()
+                                            && order.containsBookWithTitle(bookTitle)) {
+                                        matchingOrders.add(order);
+                                    }
+                                }
+
+                                if (!matchingOrders.isEmpty()) {
+                                    for (int i = 0; i < matchingOrders.size(); i++) {
+                                        System.out.println(matchingOrders.get(i));
+                                    }
+                                } else {
+                                    System.out.println("No orders found containing book title: " + bookTitle);
+                                }
                             }
                             break;
 
