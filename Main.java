@@ -599,54 +599,64 @@ public class Main {
                             // View all orders
                             System.out.println("----------------------");
                             System.out.println("All Orders:");
-                            QueueADT<Order> orders = orderBuddy.getOrders();
-                            if (orders.isEmpty()) {
+                            QueueADT<Order> ordersQueue = orderBuddy.getOrders();
+                            QueueADT<Order> tempQueue = new QueueADT<>();
+
+                            if (ordersQueue.isEmpty()) {
                                 System.out.println("No orders found.");
                             } else {
-                                for (int i = 0; i < orders.size(); i++) {
-                                    Order order = orders.poll();
-                                    System.out.println(order);
-                                    orders.offer(order); // Re-add the order to maintain the queue
+                                // Convert QueueADT to ArrayListADT for displaying, sorting, and searching
+                                ArrayListADT<Order> orderList = new ArrayListADT<>();
+                                while (!ordersQueue.isEmpty()) {
+                                    Order order = ordersQueue.poll();
+                                    orderList.add(order);
+                                    tempQueue.offer(order);
                                 }
-                            }
 
-                            // Search Orders
-                            System.out.println("----------------------");
-                            System.out.print("Enter the order ID or customer ID to search: ");
-                            String searchOrderQuery = scanner.nextLine();
-                            boolean isNumber = true;
-                            try {
-                                Integer.parseInt(searchOrderQuery); // Check if the input is a valid number
-                            } catch (NumberFormatException e) {
-                                isNumber = false;
-                            }
-                            System.out.println("Searching for orders matching: " + searchOrderQuery);
-                            boolean orderFound = false;
-                            QueueADT<Order> tempQueue = new QueueADT<>();
-                            Order foundOrder = null;
-                            while (!orders.isEmpty()) {
-                                Order order = orders.poll();
-                                if ((isNumber && Integer.toString(order.getOrderId()).equals(searchOrderQuery)) ||
-                                        (!isNumber
-                                                && Integer.toString(order.getCustomerId()).equals(searchOrderQuery))) {
-                                    orderFound = true;
-                                    foundOrder = order;
-                                    System.out.println(order);
+                                // Restore the original queue
+                                while (!tempQueue.isEmpty()) {
+                                    ordersQueue.offer(tempQueue.poll());
                                 }
-                                tempQueue.offer(order);
-                            }
-                            // Restore the original queue
-                            while (!tempQueue.isEmpty()) {
-                                orders.offer(tempQueue.poll());
-                            }
-                            if (!orderFound) {
-                                System.out.println("No orders found matching: " + searchOrderQuery);
-                            } else {
-                                // Change order status
-                                System.out.print("Enter the new status for the order: ");
-                                String newStatus = scanner.nextLine();
-                                foundOrder.setStatus(newStatus);
-                                System.out.println("Order status updated successfully!");
+
+                                // Display all orders
+                                for (int i = 0; i < orderList.size(); i++) {
+                                    System.out.println(orderList.get(i));
+                                }
+
+                                // Search Orders
+                                System.out.println("----------------------");
+                                System.out.print("Enter the order ID to search: ");
+                                String searchOrderQuery = scanner.nextLine();
+                                int orderId;
+                                try {
+                                    orderId = Integer.parseInt(searchOrderQuery); // Check if the input is a valid
+                                                                                  // number
+                                } catch (NumberFormatException e) {
+                                    System.out.println("Invalid input. Please enter a valid order ID.");
+                                    break;
+                                }
+                                System.out.println("Searching for orders matching: " + searchOrderQuery);
+
+                                // Sort the orders by order ID using QuickSort
+                                QuickSort<Order> sorter = new QuickSort<>();
+                                sorter.sort(orderList);
+
+                                // Perform the binary search
+                                BinarySearch<Order> binarySearch = new BinarySearch<>();
+                                int index = binarySearch.search(orderList, new Order(orderId, null, null, null, null));
+
+                                if (index != -1) {
+                                    Order foundOrder = orderList.get(index);
+                                    System.out.println(foundOrder);
+
+                                    // Change order status
+                                    System.out.print("Enter the new status for the order: ");
+                                    String newStatus = scanner.nextLine();
+                                    foundOrder.setStatus(newStatus);
+                                    System.out.println("Order status updated successfully!");
+                                } else {
+                                    System.out.println("No orders found matching: " + searchOrderQuery);
+                                }
                             }
                             break;
 

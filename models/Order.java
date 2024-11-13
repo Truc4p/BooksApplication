@@ -5,7 +5,7 @@ import java.util.Date;
 import BooksApp.customer.Customer;
 import BooksApp.adt.ArrayListADT;
 
-public class Order {
+public class Order implements Comparable<Order>  {
     private int orderId;
     private Date date;
     private Customer customer;
