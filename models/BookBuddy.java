@@ -3,6 +3,7 @@ package BooksApp.models;
 import BooksApp.adt.ArrayListADT;
 import BooksApp.algo.QuickSort;
 import BooksApp.algo.BinarySearch;
+import BooksApp.algo.LinearSearch;
 
 public class BookBuddy {
     private ArrayListADT<Book> books;
@@ -56,15 +57,16 @@ public class BookBuddy {
             // If query is not an integer, continue to search by title or author
         }
 
-        // Search by title or author using linear search
+        // Search by title or author using LinearSearch
         if (!found) {
-            for (int i = 0; i < books.size(); i++) {
-                Book book = books.get(i);
-                if (book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                    book.getAuthor().toLowerCase().contains(query.toLowerCase())) {
-                    found = true;
-                    System.out.println(book);
-                }
+            LinearSearch<Book> linearSearch = new LinearSearch<>();
+            int index = linearSearch.search(books, null, book -> 
+                book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                book.getAuthor().toLowerCase().contains(query.toLowerCase())
+            );
+            if (index != -1) {
+                System.out.println(books.get(index));
+                found = true;
             }
         }
 
