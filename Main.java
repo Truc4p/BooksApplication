@@ -13,7 +13,9 @@ import BooksApp.admin.AdminBuddy;
 import BooksApp.customer.Customer;
 import BooksApp.customer.CustomerBuddy;
 import BooksApp.adt.StackADT;
+import BooksApp.algo.BinarySearch;
 import BooksApp.algo.LinearSearch;
+import BooksApp.algo.QuickSort;
 import BooksApp.models.Book;
 import BooksApp.adt.ArrayListADT;
 import BooksApp.models.CartItem;
@@ -175,7 +177,7 @@ public class Main {
 
                                 if (availableQuantity <= 0) {
                                     System.out.println(
-                                            "This book is not available in stock.");
+                                            "This book is out of stock.");
                                 } else {
                                     System.out.print("Enter the quantity to add to cart (available: "
                                             + availableQuantity + "): ");

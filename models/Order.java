@@ -58,6 +58,11 @@ public class Order {
     }
 
     @Override
+    public int compareTo(Order other) {
+        return Integer.compare(this.orderId, other.orderId);
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Order Details:\n");
