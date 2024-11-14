@@ -2,6 +2,7 @@ package BooksApp.models;
 
 import BooksApp.adt.ArrayListADT;
 import BooksApp.algo.QuickSort;
+import java.util.Scanner;
 
 public class CartItemBuddy {
     private ArrayListADT<CartItem> cart;
@@ -60,6 +61,21 @@ public class CartItemBuddy {
             System.out.println("Book removed from cart!");
         } else {
             System.out.println("Book not found in cart.");
+        }
+    }
+
+    // Method to remove a book from the cart with user input
+    public void removeBookFromCart(Scanner scanner) {
+        System.out.println("----------------------");
+        System.out.print("Enter the book ID to remove from cart or 'n' to cancel: ");
+        String inputCart = scanner.nextLine();
+        if (!inputCart.equalsIgnoreCase("n")) {
+            try {
+                int bookIdToRemove = Integer.parseInt(inputCart);
+                removeFromCart(bookIdToRemove); // Remove from cart
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid book ID.");
+            }
         }
     }
 

@@ -61,9 +61,10 @@ public class BookBuddy {
         // Search by title or author using LinearSearch
         if (!found) {
             LinearSearch<Book> linearSearch = new LinearSearch<>();
-            int index = linearSearch.search(books, null,
-                    book -> book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                            book.getAuthor().toLowerCase().contains(query.toLowerCase()));
+            int index = linearSearch.search(books, null, book -> 
+                book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                book.getAuthor().toLowerCase().contains(query.toLowerCase())
+            );
             if (index != -1) {
                 System.out.println(books.get(index));
                 found = true;

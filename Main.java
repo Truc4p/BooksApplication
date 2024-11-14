@@ -269,17 +269,7 @@ public class Main {
 
                                 case 3:
                                     // Remove book from cart
-                                    System.out.println("----------------------");
-                                    System.out.print("Enter the book ID to remove from cart or 'n' to cancel: ");
-                                    String inputCart = scanner.nextLine();
-                                    if (!inputCart.equalsIgnoreCase("n")) {
-                                        try {
-                                            int bookIdToRemove = Integer.parseInt(inputCart);
-                                            cartItemBuddy.removeFromCart(bookIdToRemove); // Remove from cart
-                                        } catch (NumberFormatException e) {
-                                            System.out.println("Invalid input. Please enter a valid book ID.");
-                                        }
-                                    }
+                                    cartItemBuddy.removeBookFromCart(scanner);
                                     break;
 
                                 case 4:
