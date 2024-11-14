@@ -362,7 +362,7 @@ public class Main {
                                 }
                             }
 
-                            // Search Orders
+                            // Search Orders as customer
                             System.out.println("----------------------");
                             System.out.println("1. Search by Order ID");
                             System.out.println("2. Search by Book Title");
@@ -623,7 +623,7 @@ public class Main {
                                     System.out.println(orderList.get(i));
                                 }
 
-                                // Search Orders
+                                // Search Orders as admin
                                 System.out.println("----------------------");
                                 System.out.print("Enter the order ID to search: ");
                                 String searchOrderQuery = scanner.nextLine();

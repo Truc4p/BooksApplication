@@ -2,24 +2,30 @@ package BooksApp.adt;
 
 import java.util.NoSuchElementException;
 
+// Implementation of a generic stack
 public class StackADT<E> implements AbstractStack<E> {
-    private class Node<E>{
-        private E element;
-        private Node<E> next;
-        private Node(E element){
+    // Inner class to represent a node in the stack
+    private class Node<E> {
+        private E element; // The element stored in the node
+        private Node<E> next; // The next node in the stack
+
+        // Constructor to initialize the node with an element
+        private Node(E element) {
             this.element = element;
             this.next = null;
         }
     }
 
-    private int size;
-    private Node<E> top;
+    private int size; // The number of elements in the stack
+    private Node<E> top; // The top of the stack
 
-    public StackADT(){
+    // Constructor to initialize the stack
+    public StackADT() {
         this.top = null;
         this.size = 0;
     }
 
+    // Pushes an element onto the top of the stack
     @Override
     public void push(E element) {
         Node<E> newNode = new Node<>(element);
@@ -28,10 +34,10 @@ public class StackADT<E> implements AbstractStack<E> {
         this.size++;
     }
 
+    // Removes and returns the top element from the stack
     @Override
     public E pop() {
-
-        if(this.isEmpty()){
+        if (this.isEmpty()) {
             throw new NoSuchElementException("Stack is empty.");
         }
 
@@ -52,37 +58,39 @@ public class StackADT<E> implements AbstractStack<E> {
         return oldElement;
     }
 
+    // Returns the top element of the stack without removing it
     @Override
     public E peek() {
-        if(this.isEmpty()){
+        if (this.isEmpty()) {
             throw new NoSuchElementException("Stack is empty.");
         }
 
         return this.top.element;
     }
 
+    // Returns the number of elements in the stack
     @Override
     public int size() {
         return this.size;
     }
 
+    // Checks if the stack is empty
     @Override
     public boolean isEmpty() {
-        if(this.size == 0)
-            return true;
-        return false;
+        return this.size == 0;
     }
 
+    // Returns a string representation of the stack
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder result = new StringBuilder("[");
 
         Node<E> tempNode = top;
 
-        while(tempNode != null){
+        while (tempNode != null) {
             result.append(tempNode.element);
 
-            if(tempNode.next != null){
+            if (tempNode.next != null) {
                 result.append(", ");
             }
 
@@ -94,7 +102,9 @@ public class StackADT<E> implements AbstractStack<E> {
     }
 }
 
-class StackADTRunner{
+// Runner class to test the StackADT
+class StackADTRunner {
     public static void main(String[] args) {
+        // Main method for testing
     }
 }
