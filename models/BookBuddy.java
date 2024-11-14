@@ -4,6 +4,7 @@ import BooksApp.adt.ArrayListADT;
 import BooksApp.algo.QuickSort;
 import BooksApp.algo.BinarySearch;
 import BooksApp.algo.LinearSearch;
+import java.util.Scanner;
 
 public class BookBuddy {
     private ArrayListADT<Book> books;
@@ -60,10 +61,9 @@ public class BookBuddy {
         // Search by title or author using LinearSearch
         if (!found) {
             LinearSearch<Book> linearSearch = new LinearSearch<>();
-            int index = linearSearch.search(books, null, book -> 
-                book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                book.getAuthor().toLowerCase().contains(query.toLowerCase())
-            );
+            int index = linearSearch.search(books, null,
+                    book -> book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                            book.getAuthor().toLowerCase().contains(query.toLowerCase()));
             if (index != -1) {
                 System.out.println(books.get(index));
                 found = true;
@@ -96,7 +96,86 @@ public class BookBuddy {
         return null; // If no book found, return null
     }
 
-    // Admin methods
+    // Method to update book details
+    public void updateBookDetails(Scanner scanner) {
+        System.out.println("----------------------");
+        System.out.print("Enter the book ID to update: ");
+        int bookIdToUpdate = Integer.parseInt(scanner.nextLine());
+        Book bookToUpdate = getBookById(bookIdToUpdate);
+        if (bookToUpdate != null) {
+            System.out.print("Enter the new title (leave blank to keep current): ");
+            String newTitle = scanner.nextLine();
+            System.out.print("Enter the new author (leave blank to keep current): ");
+            String newAuthor = scanner.nextLine();
+            System.out.print("Enter the new price (leave blank to keep current): ");
+            String newPriceStr = scanner.nextLine();
+            System.out.print("Enter the new stock quantity (leave blank to keep current): ");
+            String newStockQuantityStr = scanner.nextLine();
+
+            if (!newTitle.isEmpty()) {
+                bookToUpdate.setTitle(newTitle);
+            }
+            if (!newAuthor.isEmpty()) {
+                bookToUpdate.setAuthor(newAuthor);
+            }
+            if (!newPriceStr.isEmpty()) {
+                double newPrice = Double.parseDouble(newPriceStr);
+                bookToUpdate.setPrice(newPrice);
+            }
+            if (!newStockQuantityStr.isEmpty()) {
+                int newStockQuantity = Integer.parseInt(newStockQuantityStr);
+                bookToUpdate.setStockQuantity(newStockQuantity);
+            }
+
+            System.out.println("Book details updated successfully!");
+        } else {
+            System.out.println("No book found with ID: " + bookIdToUpdate);
+        }
+    }
+
+    // Method to add a new book
+    public void addNewBook(Scanner scanner) {
+        System.out.println("----------------------");
+        System.out.print("Enter the book title: ");
+        String title = scanner.nextLine();
+        System.out.print("Enter the book author: ");
+        String author = scanner.nextLine();
+        double price = 0;
+        while (true) {
+            try {
+                System.out.print("Enter the book price: ");
+                price = Double.parseDouble(scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid price.");
+            }
+        }
+        int stockQuantity = 0;
+        while (true) {
+            try {
+                System.out.print("Enter the stock quantity: ");
+                stockQuantity = Integer.parseInt(scanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Please enter a valid stock quantity.");
+            }
+        }
+        Book newBook = new Book(books.size() + 1, title, author, price, stockQuantity);
+        addBook(newBook);
+        System.out.println("Book added successfully!");
+    }
+
+    // Method to remove a book
+    public void removeBook(Scanner scanner) {
+        System.out.println("----------------------");
+        System.out.print("Enter the book ID to remove: ");
+        int bookIdToRemove = Integer.parseInt(scanner.nextLine());
+        if (removeBook(bookIdToRemove)) {
+            System.out.println("Book removed successfully!");
+        } else {
+            System.out.println("No book found with ID: " + bookIdToRemove);
+        }
+    }
 
     // Method to get all books
     public ArrayListADT<Book> getBooks() {
