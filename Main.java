@@ -336,7 +336,7 @@ public class Main {
                             break;
 
                         case 5:
-                            // Orders History
+                            // view Orders History as customer
                             System.out.println("----------------------");
                             System.out.println("Orders History:");
                             QueueADT<Order> orders = orderBuddy.getOrders();
@@ -596,7 +596,7 @@ public class Main {
                             break;
 
                         case 5:
-                            // View all orders
+                            // View all orders as admin
                             System.out.println("----------------------");
                             System.out.println("All Orders:");
                             QueueADT<Order> ordersQueue = orderBuddy.getOrders();
