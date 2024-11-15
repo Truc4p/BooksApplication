@@ -49,7 +49,8 @@ public class Order implements Comparable<Order>  {
     }
 
     public boolean containsBookWithTitle(String title) {
-        for (CartItem item : items) {
+        for (int i = 0; i < items.size(); i++) {
+            CartItem item = items.get(i);
             if (item.getTitle().equalsIgnoreCase(title)) {
                 return true;
             }
@@ -73,7 +74,8 @@ public class Order implements Comparable<Order>  {
         sb.append("Status: ").append(status).append("\n");
         sb.append("Items:\n");
 
-        for (CartItem item : items) {
+        for (int i = 0; i < items.size(); i++) {
+            CartItem item = items.get(i);
             sb.append("\t").append(item).append("\n");
         }
 

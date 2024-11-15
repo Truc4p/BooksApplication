@@ -15,7 +15,8 @@ public class CustomerBuddy {
     }
 
     public Customer loginCustomer(String email, String password) {
-        for (Customer customer : customers) {
+        for (int i = 0; i < customers.size(); i++) {
+            Customer customer = customers.get(i);
             if (customer.getEmail().equals(email) && customer.getPassword().equals(password)) {
                 return customer;
             }

@@ -1,6 +1,7 @@
 package BooksApp.admin;
 
 import BooksApp.adt.ArrayListADT;
+import BooksApp.customer.Customer;
 
 public class AdminBuddy {
     private ArrayListADT<Admin> admins;
@@ -15,7 +16,8 @@ public class AdminBuddy {
     }
 
     public Admin loginAdmin(String email, String password) {
-        for (Admin admin : admins) {
+        for (int i = 0; i < admins.size(); i++) {
+            Admin admin = admins.get(i);
             if (admin.getEmail().equals(email) && admin.getPassword().equals(password)) {
                 return admin;
             }
