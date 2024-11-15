@@ -221,7 +221,7 @@ public class Main {
                             System.out.println("----------------------");
                             cartItemBuddy.viewCart();
 
-                            System.out.println("1. Checkout");
+                            System.out.println("1. Place Order");
                             System.out.println("2. Go back");
                             System.out.println("3. Remove book from cart");
                             System.out.println("4. Change quantity");
@@ -232,7 +232,7 @@ public class Main {
 
                             switch (choiceCart) {
                                 case 1:
-                                    // Checkout
+                                    // Place Order
                                     if (cartItemBuddy.isEmpty()) {
                                         System.out.println(
                                                 "Your cart is empty. Add some books to the cart before checking out.");
@@ -258,7 +258,7 @@ public class Main {
                                         System.out.println("Order placed successfully!");
                                         System.out.println(order);
 
-                                        // Clear the cart after checkout
+                                        // Clear the cart after Place Order
                                         cartItemBuddy.clearCart();
                                     }
                                     break;
