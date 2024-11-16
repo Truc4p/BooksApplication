@@ -302,11 +302,7 @@ public class Main {
                                             int bookId = Integer.parseInt(inputCart2);
                                             CartItem cartItem = cartItemBuddy.getCartItemById(bookId);
                                             if (cartItem != null) {
-                                                Book bookQuantityChange = bookBuddy.getBookById(bookId); // Assume this
-                                                                                                         // method
-                                                                                                         // retrieves
-                                                                                                         // the book by
-                                                                                                         // ID
+                                                Book bookQuantityChange = bookBuddy.getBookById(bookId); // Assume this method retrieves the book by ID
                                                 if (bookQuantityChange != null) {
                                                     System.out.print("Enter the new quantity (available: "
                                                             + bookQuantityChange.getStockQuantity() + "): ");
