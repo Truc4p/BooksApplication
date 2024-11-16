@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class BookBuddy {
     private ArrayListADT<Book> books;
+    private int maxBookId;
 
     public BookBuddy() {
         // Initialize the books list with some sample data
@@ -16,6 +17,9 @@ public class BookBuddy {
         books.add(new Book(2, "1984", "George Orwell", 8.99, 3));
         books.add(new Book(3, "To Kill a Mockingbird", "Harper Lee", 12.99, 7));
         books.add(new Book(4, "The Great Gatsby", "F. Scott Fitzgerald", 7.99, 2));
+
+        // Initialize maxBookId to the highest ID in the initial list
+        this.maxBookId = books.size();
     }
 
     // Method to display books
@@ -61,10 +65,9 @@ public class BookBuddy {
         // Search by title or author using LinearSearch
         if (!found) {
             LinearSearch<Book> linearSearch = new LinearSearch<>();
-            int index = linearSearch.search(books, null, book -> 
-                book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
-                book.getAuthor().toLowerCase().contains(query.toLowerCase())
-            );
+            int index = linearSearch.search(books, null,
+                    book -> book.getTitle().toLowerCase().contains(query.toLowerCase()) ||
+                            book.getAuthor().toLowerCase().contains(query.toLowerCase()));
             if (index != -1) {
                 System.out.println(books.get(index));
                 found = true;
@@ -161,9 +164,11 @@ public class BookBuddy {
                 System.out.println("Invalid input. Please enter a valid stock quantity.");
             }
         }
-        Book newBook = new Book(books.size() + 1, title, author, price, stockQuantity);
+        // Assign a new unique ID
+        int newBookId = ++maxBookId;
+        Book newBook = new Book(newBookId, title, author, price, stockQuantity);
         addBook(newBook);
-        System.out.println("Book added successfully!");
+        System.out.println("Book added successfully with ID: " + newBookId);
     }
 
     // Method to remove a book
