@@ -8,6 +8,7 @@ public class LinearSearch<T> {
     // Example: Finding a book with a specific ID.
     public int search(ArrayListADT<T> list, T key) {
         for (int i = 0; i < list.size(); i++) {
+            // Check if the current element equals the key
             if (list.get(i).equals(key)) {
                 return i; // Key found
             }
@@ -19,6 +20,7 @@ public class LinearSearch<T> {
     // Example: Finding a book with a title that contains a specific word.
     public int search(ArrayListADT<T> list, T key, java.util.function.Predicate<T> predicate) {
         for (int i = 0; i < list.size(); i++) {
+            // Check if the current element matches the predicate condition
             if (predicate.test(list.get(i))) {
                 return i; // Key found
             }

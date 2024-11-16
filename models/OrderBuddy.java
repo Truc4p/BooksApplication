@@ -11,22 +11,26 @@ import BooksApp.algo.BinarySearch;
 import BooksApp.algo.QuickSort;
 
 public class OrderBuddy {
-    private ArrayListADT<Order> orders;
+    private ArrayListADT<Order> orders; // List to store order objects
 
+    // Constructor to initialize the orders list
     public OrderBuddy() {
         orders = new ArrayListADT<>();
     }
 
+    // Method to create a new order
     public Order createOrder(Date date, Customer customer, String status, ArrayListADT<CartItem> items) {
         int orderId = generateOrderId();
         Order order = new Order(orderId, date, customer, status, items);
         return order;
     }
 
+    // Method to add an order to the list
     public void addOrder(Order order) {
         orders.add(order);
     }
 
+    // Method to get all orders as a queue
     public QueueADT<Order> getOrders() {
         QueueADT<Order> orderQueue = new QueueADT<>();
         for (int i = 0; i < orders.size(); i++) {
@@ -36,10 +40,12 @@ public class OrderBuddy {
         return orderQueue;
     }
 
+    // Method to generate a unique order ID
     private int generateOrderId() {
         return orders.size() + 1;
     }
 
+    // Method to view the order history for a logged-in user
     public void viewOrdersHistory(User loggedInUser) {
         System.out.println("----------------------");
         System.out.println("Orders History:");
@@ -67,6 +73,7 @@ public class OrderBuddy {
         }
     }
 
+    // Method to search orders as a customer
     public void searchOrdersAsCustomer(User loggedInUser, Scanner scanner) {
         System.out.println("----------------------");
         System.out.println("1. Search by Order ID");
@@ -154,6 +161,7 @@ public class OrderBuddy {
         }
     }
 
+    // Method to view all orders as an admin
     public void viewAllOrdersAsAdmin(Scanner scanner) {
         System.out.println("----------------------");
         System.out.println("All Orders:");

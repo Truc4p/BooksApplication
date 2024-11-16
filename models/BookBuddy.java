@@ -7,8 +7,8 @@ import BooksApp.algo.LinearSearch;
 import java.util.Scanner;
 
 public class BookBuddy {
-    private ArrayListADT<Book> books;
-    private int maxBookId;
+    private ArrayListADT<Book> books; // List to store book objects
+    private int maxBookId; // Variable to keep track of the maximum book ID
 
     public BookBuddy() {
         // Initialize the books list with some sample data
@@ -183,16 +183,12 @@ public class BookBuddy {
         }
     }
 
-    // Method to get all books
-    public ArrayListADT<Book> getBooks() {
-        return books;
-    }
-
     // Method to add a book to the list
     public void addBook(Book book) {
         books.add(book);
     }
 
+    // Method to remove a book from the list by its ID
     public boolean removeBook(int bookId) {
         for (int i = 0; i < books.size(); i++) {
             if (books.get(i).getBookId() == bookId) {
