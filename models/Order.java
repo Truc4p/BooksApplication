@@ -1,9 +1,9 @@
 // FILE: models/Order.java
-package BooksApp.models;
+package BooksApplication.models;
 
 import java.util.Date;
-import BooksApp.customer.Customer;
-import BooksApp.adt.ArrayListADT;
+import BooksApplication.customer.Customer;
+import BooksApplication.adt.ArrayListADT;
 
 public class Order implements Comparable<Order>  {
     private int orderId; // Unique identifier for the order

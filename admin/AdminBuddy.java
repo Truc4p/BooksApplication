@@ -1,8 +1,8 @@
 // FILE: admin/AdminBuddy.java
-package BooksApp.admin;
+package BooksApplication.admin;
 
-import BooksApp.adt.ArrayListADT;
-import BooksApp.customer.Customer;
+import BooksApplication.adt.ArrayListADT;
+import BooksApplication.customer.Customer;
 
 public class AdminBuddy {
     // List to store admin objects

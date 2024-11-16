@@ -1,7 +1,7 @@
 // FILE: customer/CustomerBuddy.java
-package BooksApp.customer;
+package BooksApplication.customer;
 
-import BooksApp.adt.ArrayListADT;
+import BooksApplication.adt.ArrayListADT;
 
 public class CustomerBuddy {
     // List to store customer objects

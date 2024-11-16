@@ -1,7 +1,7 @@
 // FILE: customer/Customer.java
-package BooksApp.customer;
+package BooksApplication.customer;
 
-import BooksApp.models.User;
+import BooksApplication.models.User;
 
 public class Customer extends User {
     private String address; // Address of the customer

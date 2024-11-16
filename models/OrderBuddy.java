@@ -1,14 +1,14 @@
 // FILE: models/OrderBuddy.java
-package BooksApp.models;
+package BooksApplication.models;
 
 import java.util.Date;
 import java.util.Scanner;
-import BooksApp.adt.ArrayListADT;
-import BooksApp.customer.Customer;
-import BooksApp.adt.QueueADT;
-import BooksApp.algo.LinearSearch;
-import BooksApp.algo.BinarySearch;
-import BooksApp.algo.QuickSort;
+import BooksApplication.adt.ArrayListADT;
+import BooksApplication.customer.Customer;
+import BooksApplication.adt.QueueADT;
+import BooksApplication.algo.LinearSearch;
+import BooksApplication.algo.BinarySearch;
+import BooksApplication.algo.QuickSort;
 
 public class OrderBuddy {
     private ArrayListADT<Order> orders; // List to store order objects

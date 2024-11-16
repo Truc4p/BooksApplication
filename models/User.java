@@ -1,5 +1,5 @@
 // FILE: models/User.java
-package BooksApp.models;
+package BooksApplication.models;
 
 public abstract class User {
     protected int userId; // Unique identifier for the user

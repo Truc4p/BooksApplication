@@ -1,5 +1,5 @@
 // FILE: models/CartItem.java
-package BooksApp.models;
+package BooksApplication.models;
 
 public class CartItem implements Comparable<CartItem> {
     private int bookId; // Unique identifier for the book

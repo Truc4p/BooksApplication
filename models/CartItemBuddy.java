@@ -1,8 +1,8 @@
 // FILE: models/CartItemBuddy.java
-package BooksApp.models;
+package BooksApplication.models;
 
-import BooksApp.adt.ArrayListADT;
-import BooksApp.algo.QuickSort;
+import BooksApplication.adt.ArrayListADT;
+import BooksApplication.algo.QuickSort;
 import java.util.Scanner;
 
 public class CartItemBuddy {

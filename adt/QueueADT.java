@@ -1,5 +1,5 @@
 // FILE: adt/QueueADT.java
-package BooksApp.adt;
+package BooksApplication.adt;
 
 // Implementation of a generic queue
 public class QueueADT<E> implements AbstractQueue<E> {

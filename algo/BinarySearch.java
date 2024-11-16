@@ -1,7 +1,7 @@
 // FILE: algo/BinarySearch.java
-package BooksApp.algo;
+package BooksApplication.algo;
 
-import BooksApp.adt.ArrayListADT;
+import BooksApplication.adt.ArrayListADT;
 
 public class BinarySearch<T extends Comparable<T>> {
     // Public method to initiate binary search on the list

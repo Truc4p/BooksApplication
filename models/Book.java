@@ -1,5 +1,5 @@
 // FILE: models/Book.java
-package BooksApp.models;
+package BooksApplication.models;
 
 public class Book implements Comparable<Book> {
     private int bookId; // Unique identifier for the book

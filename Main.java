@@ -1,27 +1,27 @@
 // FILE: Main.java
-package BooksApp;
+package BooksApplication;
 
 import java.util.Scanner;
 import java.util.Date;
 import java.io.Console;
 
-import BooksApp.models.BookBuddy;
-import BooksApp.models.CartItemBuddy;
-import BooksApp.models.OrderBuddy;
-import BooksApp.models.User;
-import BooksApp.admin.Admin;
-import BooksApp.admin.AdminBuddy;
-import BooksApp.customer.Customer;
-import BooksApp.customer.CustomerBuddy;
-import BooksApp.adt.StackADT;
-import BooksApp.algo.BinarySearch;
-import BooksApp.algo.LinearSearch;
-import BooksApp.algo.QuickSort;
-import BooksApp.models.Book;
-import BooksApp.adt.ArrayListADT;
-import BooksApp.models.CartItem;
-import BooksApp.models.Order;
-import BooksApp.adt.QueueADT;
+import BooksApplication.models.BookBuddy;
+import BooksApplication.models.CartItemBuddy;
+import BooksApplication.models.OrderBuddy;
+import BooksApplication.models.User;
+import BooksApplication.admin.Admin;
+import BooksApplication.admin.AdminBuddy;
+import BooksApplication.customer.Customer;
+import BooksApplication.customer.CustomerBuddy;
+import BooksApplication.adt.StackADT;
+import BooksApplication.algo.BinarySearch;
+import BooksApplication.algo.LinearSearch;
+import BooksApplication.algo.QuickSort;
+import BooksApplication.models.Book;
+import BooksApplication.adt.ArrayListADT;
+import BooksApplication.models.CartItem;
+import BooksApplication.models.Order;
+import BooksApplication.adt.QueueADT;
 
 public class Main {
     public static void main(String[] args) {

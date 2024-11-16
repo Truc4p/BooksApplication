@@ -1,7 +1,7 @@
 // FILE: algo/LinearSearch.java
-package BooksApp.algo;
+package BooksApplication.algo;
 
-import BooksApp.adt.ArrayListADT;
+import BooksApplication.adt.ArrayListADT;
 
 public class LinearSearch<T> {
 

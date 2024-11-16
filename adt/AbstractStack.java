@@ -1,5 +1,5 @@
 // FILE: adt/AbstractStack.java
-package BooksApp.adt;
+package BooksApplication.adt;
 
 public interface AbstractStack<E> {
     // Pushes an element onto the top of the stack

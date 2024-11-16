@@ -1,7 +1,7 @@
 // FILE: algo/QuickSort.java
-package BooksApp.algo;
+package BooksApplication.algo;
 
-import BooksApp.adt.ArrayListADT;
+import BooksApplication.adt.ArrayListADT;
 
 public class QuickSort<T extends Comparable<T>> {
     // Public method to initiate the quicksort on the list

@@ -1,5 +1,5 @@
 // FILE: adt/AbstractList.java
-package BooksApp.adt;
+package BooksApplication.adt;
 
 // Interface for a generic list
 public interface AbstractList<E> {

@@ -1,10 +1,10 @@
 // FILE: models/BookBuddy.java
-package BooksApp.models;
+package BooksApplication.models;
 
-import BooksApp.adt.ArrayListADT;
-import BooksApp.algo.QuickSort;
-import BooksApp.algo.BinarySearch;
-import BooksApp.algo.LinearSearch;
+import BooksApplication.adt.ArrayListADT;
+import BooksApplication.algo.QuickSort;
+import BooksApplication.algo.BinarySearch;
+import BooksApplication.algo.LinearSearch;
 import java.util.Scanner;
 
 public class BookBuddy {

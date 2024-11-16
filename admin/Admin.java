@@ -1,7 +1,7 @@
 // FILE: admin/Admin.java
-package BooksApp.admin;
+package BooksApplication.admin;
 
-import BooksApp.models.User;
+import BooksApplication.models.User;
 
 public class Admin extends User {
     

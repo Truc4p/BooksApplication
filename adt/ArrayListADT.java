@@ -1,5 +1,5 @@
 // FILE: adt/ArrayListADT.java
-package BooksApp.adt;
+package BooksApplication.adt;
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;

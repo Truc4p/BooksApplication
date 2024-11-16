@@ -1,5 +1,5 @@
 // FILE: adt/StackADT.java
-package BooksApp.adt;
+package BooksApplication.adt;
 
 import java.util.NoSuchElementException;
 

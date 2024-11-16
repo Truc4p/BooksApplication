@@ -1,5 +1,5 @@
 // FILE: adt/AbstractQueue.java
-package BooksApp.adt;
+package BooksApplication.adt;
 
 public interface AbstractQueue<E> {
     // Inserts the specified element into the queue
