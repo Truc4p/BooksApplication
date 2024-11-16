@@ -14,7 +14,7 @@ public class BookBuddy {
         // Initialize the books list with some sample data
         this.books = new ArrayListADT<>();
         books.add(new Book(1, "The Catcher in the Rye", "J.D. Salinger", 10.99, 5));
-        books.add(new Book(2, "1984", "George Orwell", 8.99, 3));
+        books.add(new Book(2, "Brave New World", "Aldous Huxley", 9.99, 3));
         books.add(new Book(3, "To Kill a Mockingbird", "Harper Lee", 12.99, 7));
         books.add(new Book(4, "The Great Gatsby", "F. Scott Fitzgerald", 7.99, 2));
 
