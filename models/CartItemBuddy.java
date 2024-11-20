@@ -14,11 +14,6 @@ public class CartItemBuddy {
     }
 
     // Method to add a CartItem to the cart
-    public void addToCart(CartItem cartItem) {
-        cart.add(cartItem);
-    }
-
-    // Method to add a CartItem to the cart
     public void addToCart(Book book, int quantity) {
         // Check if the book is already in the cart
         for (int i = 0; i < cart.size(); i++) {
