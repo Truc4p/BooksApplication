@@ -29,9 +29,9 @@ public class CartItemBuddy {
                 return;
             }
         }
-        // If the book is not in the cart, add a new CartItem
-        CartItem newCartItem = new CartItem(book.getBookId(), book.getTitle(), book.getAuthor(), book.getPrice(),
-                quantity);
+        // If the book is not in the cart, add a new CartItem with a reference to the
+        // book
+        CartItem newCartItem = new CartItem(book, quantity);
         cart.add(newCartItem);
     }
 

@@ -2,39 +2,33 @@
 package BooksApplication.models;
 
 public class CartItem implements Comparable<CartItem> {
-    private int bookId; // Unique identifier for the book
-    private String title; // Title of the book
-    private String author; // Author of the book
-    private double price; // Price of the book
+    private Book book; // Reference to the Book object
     private int quantity; // Quantity of the book in the cart
 
-    // Constructor to initialize the cart item object
-    public CartItem(int bookId, String title, String author, double price, int quantity) {
-        this.bookId = bookId;
-        this.title = title;
-        this.author = author;
-        this.price = price;
+    // Constructor to initialize the cart item object with a Book reference
+    public CartItem(Book book, int quantity) {
+        this.book = book;
         this.quantity = quantity;
     }
 
     // Getter method for bookId
     public int getBookId() {
-        return bookId;
+        return book.getBookId();
     }
 
     // Getter method for title
     public String getTitle() {
-        return title;
+        return book.getTitle();
     }
 
     // Getter method for author
     public String getAuthor() {
-        return author;
+        return book.getAuthor();
     }
 
     // Getter method for price
     public double getPrice() {
-        return price;
+        return book.getPrice();
     }
 
     // Getter method for quantity
@@ -50,13 +44,13 @@ public class CartItem implements Comparable<CartItem> {
     // Override compareTo method to compare cart items by title
     @Override
     public int compareTo(CartItem other) {
-        return this.title.compareTo(other.title);
+        return this.getTitle().compareTo(other.getTitle());
     }
 
     // Override toString method to return a string representation of the cart item object
     @Override
     public String toString() {
         return String.format("Book ID: %d\tTitle: %s\tAuthor: %s\tPrice: %.2f\tQuantity: %d",
-                bookId, title, author, price, quantity);
+                getBookId(), getTitle(), getAuthor(), getPrice(), quantity);
     }
 }

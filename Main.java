@@ -302,7 +302,11 @@ public class Main {
                                             int bookId = Integer.parseInt(inputCart2);
                                             CartItem cartItem = cartItemBuddy.getCartItemById(bookId);
                                             if (cartItem != null) {
-                                                Book bookQuantityChange = bookBuddy.getBookById(bookId); // Assume this method retrieves the book by ID
+                                                Book bookQuantityChange = bookBuddy.getBookById(bookId); // Assume this
+                                                                                                         // method
+                                                                                                         // retrieves
+                                                                                                         // the book by
+                                                                                                         // ID
                                                 if (bookQuantityChange != null) {
                                                     System.out.print("Enter the new quantity (available: "
                                                             + bookQuantityChange.getStockQuantity() + "): ");
@@ -357,16 +361,7 @@ public class Main {
                             if (searchHistory.isEmpty()) {
                                 System.out.println("No search history found.");
                             } else {
-                                StackADT<String> tempStack = new StackADT<>();
-                                while (!searchHistory.isEmpty()) {
-                                    String query = searchHistory.pop();
-                                    System.out.println(query);
-                                    tempStack.push(query);
-                                }
-                                // Restore the original stack
-                                while (!tempStack.isEmpty()) {
-                                    searchHistory.push(tempStack.pop());
-                                }
+                                System.out.println(searchHistory.toString());
                             }
                             break;
 
